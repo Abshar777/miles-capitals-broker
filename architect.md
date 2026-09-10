@@ -1,5 +1,6 @@
 # Frontend Architecture
 
+
 ## Overview
 
 **Framework**: Next.js 15.5.9 (App Router)  
