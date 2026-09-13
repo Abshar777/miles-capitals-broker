@@ -6,8 +6,8 @@
 **Framework**: Next.js 15.5.9 (App Router)  
 **Language**: TypeScript 5  
 **Runtime**: React 19.2.1  
-**Deployment Target**: Production at `https://testing-client.carlton-fx.com`  
-**Backend API**: `https://api-crm-client.carltonfx.com`
+**Deployment Target**: Production at `https://my.milescapitals.com`  
+**Backend API**: `https://api.milescapitals.com`
 
 ---
 

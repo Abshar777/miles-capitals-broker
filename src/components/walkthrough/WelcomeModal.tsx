@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Rocket, X, Zap, Shield, TrendingUp } from "lucide-react";
 import { useWalkthroughStore } from "@/store/walkthroughStore";
-import logo from "@/../public/svgs/logo-white.png";
+import logo from "@/../public/miles/logo-short.svg";
 import Image from "next/image";
 
 const features = [
@@ -72,7 +72,7 @@ export default function WelcomeModal() {
                   transition={{ delay: 0.22 }}
                 >
                   <h2 className="text-xl font-bold tracking-tight mb-1">
-                    Welcome to Carlton FX! 🎉
+                    Welcome to Miles Capital
                   </h2>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     Take a quick guided tour of the platform. We'll walk you through

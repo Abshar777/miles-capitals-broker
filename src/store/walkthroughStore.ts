@@ -1,7 +1,7 @@
 "use client";
 import { create } from "zustand";
 
-const STORAGE_KEY = "carlton_tour_done";
+const STORAGE_KEY = "miles_tour_done";
 
 interface WalkthroughStore {
   isActive: boolean;

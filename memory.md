@@ -4,8 +4,8 @@
 
 | Variable | Value |
 |----------|-------|
-| Production URL | `https://testing-client.carlton-fx.com` |
-| Backend API | `https://api-crm-client.carltonfx.com` |
+| Production URL | `https://my.milescapitals.com` |
+| Backend API | `https://api.milescapitals.com` |
 | Session cookie | `client-mt5-session-token` |
 | Node version | 18+ (Next.js 15 requirement) |
 

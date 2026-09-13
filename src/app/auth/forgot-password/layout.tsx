@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 
 
 export const metadata: Metadata = {
-    title: "CRM - Forgot Password | Auth",
-    description: "CRM - Forgot Password, Enter your details below to reset your password",
+    title: "Reset Password | MILES CAPITAL",
+    description: "Reset your Miles Capital password",
   };
 
 

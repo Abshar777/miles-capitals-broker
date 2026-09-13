@@ -2,7 +2,7 @@
 
 ## Overview
 
-All API calls go to the backend client API at `https://api-crm-client.carltonfx.com`.
+All API calls go to the backend client API at `https://api.milescapitals.com`.
 
 **Auth**: Bearer token from NextAuth session (`session.user.token`)  
 **HTTP Client**: Axios with interceptors (`src/utils/axios.ts`)  

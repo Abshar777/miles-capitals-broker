@@ -4,8 +4,8 @@ import Authloading from './loading';
 
 
 export const metadata: Metadata = {
-    title: "CRM - Register | Auth",
-    description: "CRM - Register, Enter your details below to create an account",
+    title: "Sign Up | MILES CAPITAL",
+    description: "Create your Miles Capital account",
   };
 
 

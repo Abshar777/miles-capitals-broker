@@ -167,7 +167,7 @@ export const useDeposit = () => {
           label: option.group_name,
           value: option.id.toString(),
           fromId: option.currency,
-          iconImage: "/logo.png",
+          iconImage: "/miles/logo-short.svg",
           description: option.type,
           currency: option.currency,
           commission_percent: option.commission_percent,
