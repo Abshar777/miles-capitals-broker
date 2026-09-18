@@ -3,6 +3,11 @@ import { create } from "zustand";
 
 const STORAGE_KEY = "miles_tour_done";
 
+/** Master switch for the onboarding walkthrough.
+ *  false = the welcome modal and the tour never appear for anyone.
+ *  Flip to true to bring it back; nothing else needs changing. */
+const TOUR_ENABLED = false;
+
 interface WalkthroughStore {
   isActive: boolean;
   currentStep: number;
@@ -24,6 +29,7 @@ export const useWalkthroughStore = create<WalkthroughStore>((set, get) => ({
   showWelcome: false,
 
   initTour: () => {
+    if (!TOUR_ENABLED) return;
     if (typeof window === "undefined") return;
     const done = localStorage.getItem(STORAGE_KEY);
     if (!done) {

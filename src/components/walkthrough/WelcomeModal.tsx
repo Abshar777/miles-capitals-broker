@@ -1,9 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Rocket, X, Zap, Shield, TrendingUp } from "lucide-react";
+import { X, Zap, Shield, TrendingUp } from "lucide-react";
 import { useWalkthroughStore } from "@/store/walkthroughStore";
-import logo from "@/../public/miles/logo-short.svg";
-import Image from "next/image";
 
 const features = [
   { icon: TrendingUp, label: "Deposits & Withdrawals" },
@@ -55,14 +53,22 @@ export default function WelcomeModal() {
                   <X className="w-4 h-4" />
                 </button>
 
-                {/* Rocket icon */}
+                {/* Brand mark */}
                 <motion.div
                   initial={{ scale: 0, rotate: -15 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.18, type: "spring", stiffness: 320, damping: 20 }}
-                  className="w-[90%] h-14  flex items-center justify-center mb-5"
+                  className="flex items-center justify-center mb-5"
                 >
-                  <Image  src={logo}  className="w-[10rem] invert dark:invert-0" alt="logo" width={100} height={100} />
+                  {/* Square mark is 48x48; keep width and height in step so it cannot
+                      overflow the modal and overlap the heading. */}
+                  <img
+                    src="/miles/logo-short.svg"
+                    alt="Miles Capital"
+                    width={72}
+                    height={72}
+                    className="size-[72px] shrink-0"
+                  />
                 </motion.div>
 
                 {/* Heading */}

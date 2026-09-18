@@ -3,7 +3,7 @@ import React from "react";
 
 import { useGetIbTrades } from "@/hooks/useIB";
 import { SkeletonCard, SkeletonChart } from "./loading";
-import SummaryCard from "./sumeryCard";
+import SummaryCard from "@/components/ui/stat-card";
 import { Activity, PieChart, LayoutGrid, User } from "lucide-react";
 import TradeChart from "./tradeChart";
 import SymbolData from "./symbolData";
