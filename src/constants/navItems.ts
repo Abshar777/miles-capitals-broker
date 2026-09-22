@@ -32,7 +32,7 @@ export const navItems: NavItem[] = [
         icon: "funds",
       },
       {
-        title: "Transfer",
+        title: "Wallet to MT5",
         url: "/root/funds/transfer",
         icon: "funds",
       },

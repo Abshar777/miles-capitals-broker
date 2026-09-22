@@ -17,7 +17,7 @@ const TABS = [
   { value: "all-transfers", label: "All" },
   { value: "deposit", label: "Deposits" },
   { value: "withdraw", label: "Withdrawals" },
-  { value: "transfer", label: "Transfer" },
+  { value: "transfer", label: "Wallet to MT5" },
   { value: "mt5-wallet", label: "MT5 to Wallet" },
   { value: "internal-transfer", label: "Internal Transfer" },
 ];

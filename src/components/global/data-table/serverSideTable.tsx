@@ -167,7 +167,10 @@ export function DataTable({
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-2 [&_[data-slot=select-trigger]]:h-12 [&_[data-slot=select-trigger]]:data-[size=default]:h-12 [&_[data-slot=select-trigger]]:md:w-[184px] [&_[data-slot=input]]:h-12">
+      <div className="flex flex-col md:flex-row md:items-start gap-2 [&_[data-slot=select-trigger]]:h-12 [&_[data-slot=select-trigger]]:data-[size=default]:h-12 [&_[data-slot=select-trigger]]:md:w-[184px] [&_[data-slot=input]]:h-12">
+        {/* Filters wrap among themselves; the Columns button stays pinned to the
+            first row instead of being pushed onto an empty one by ml-auto. */}
+        <div className="flex flex-col md:flex-row md:flex-wrap md:items-center gap-2 md:flex-1 md:min-w-0">
         {searchProps && (
           <div className="relative w-full md:w-[184px]">
             <Icon name="search-16" size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -180,12 +183,13 @@ export function DataTable({
           </div>
         )}
         {component}
+        </div>
         {isColNeeded && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="md:ml-auto h-12 inline-flex items-center justify-center gap-2 rounded-[4px] bg-field px-4 text-[15px] text-foreground"
+                className="h-12 shrink-0 inline-flex items-center justify-center gap-2 rounded-[4px] bg-field px-4 text-[15px] text-foreground"
               >
                 Columns <Icon name="dropdown-16" size={16} className="text-muted-foreground" />
               </button>

@@ -5,7 +5,7 @@ export const PAGE_TITLES: { prefix: string; title: string }[] = [
   { prefix: "/root/mt5", title: "MetaTrader 5" },
   { prefix: "/root/funds/deposit", title: "Deposit" },
   { prefix: "/root/funds/withdraw", title: "Withdraw" },
-  { prefix: "/root/funds/transfer", title: "Transfer" },
+  { prefix: "/root/funds/transfer", title: "Wallet to MT5" },
   { prefix: "/root/funds/mt5-wallet", title: "MT5 to Wallet" },
   { prefix: "/root/funds/mt5-mt5", title: "MT5 to MT5" },
   { prefix: "/root/funds/internal-transfer", title: "Internal Transfer" },
