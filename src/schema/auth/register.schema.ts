@@ -16,12 +16,12 @@ const signUpSchema = z
     city: z.string().min(2, "City must contain at least 2 letters").optional(),
     email: z.string().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters long").
-    // password must contain 1 lowercase, 1 uppercase, 1 digit, 1 special char and be 8+ chars
+    // password: 8+ chars with 1 lowercase, 1 uppercase and 1 digit (no special character required)
     refine((val) => {  
-      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_}{.+]).{8,}$/;
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
       return regex.test(val);
     }, {
-      message: "Password must contain 1 lowercase, 1 uppercase, 1 digit, 1 special char and be 8+ chars",
+      message: "Password must have at least 8 characters, 1 lowercase letter, 1 uppercase letter and 1 number",
     }),
 
     repeat_password: z.string(),

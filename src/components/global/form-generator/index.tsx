@@ -69,7 +69,6 @@ const FormGenerator = ({
     lower: false,
     upper: false,
     digit: false,
-    special: false,
     length: false,
   })
 
@@ -82,10 +81,9 @@ const FormGenerator = ({
     const lower = /[a-z]/.test(value)
     const upper = /[A-Z]/.test(value)
     const digit = /\d/.test(value)
-    const special = /[!@#$%^&*()\-_}{.+]/.test(value)
     const length = value.length >= 8
 
-    setPwdRules({ lower, upper, digit, special, length })
+    setPwdRules({ lower, upper, digit, length })
   }
   const isSafari = typeof window !== "undefined" && window?.navigator?.userAgent?.includes("Safari")
 
@@ -132,7 +130,6 @@ const FormGenerator = ({
                           lower: /[a-z]/.test(v),
                           upper: /[A-Z]/.test(v),
                           digit: /\d/.test(v),
-                          special: /[!@#$%^&*()\-_}{.+]/.test(v),
                           length: v.length >= 8,
                         })
                         register(name).onChange?.(e)
@@ -174,15 +171,6 @@ const FormGenerator = ({
                       >
                         <span className={pwdRules.digit ? "ri-check-line" : "ri-close-line"} aria-hidden="true" />
                         At least one digit
-                      </li>
-                      <li
-                        className={cn(
-                          "flex items-center gap-2",
-                          pwdRules.special ? "text-green-600" : "text-muted-foreground",
-                        )}
-                      >
-                        <span className={pwdRules.special ? "ri-check-line" : "ri-close-line"} aria-hidden="true" />
-                        At least one special character
                       </li>
                       <li
                         className={cn(

@@ -5,7 +5,6 @@ const RULES: { label: string; test: (v: string) => boolean }[] = [
   { label: "8 symbols", test: (v) => v.length >= 8 },
   { label: "1 lower-case letter", test: (v) => /[a-z]/.test(v) },
   { label: "1 number", test: (v) => /\d/.test(v) },
-  { label: "1 special character: !@#$%^&*()-_}{.+", test: (v) => /[!@#$%^&*()\-_}{.+]/.test(v) },
   { label: "1 upper-case letter", test: (v) => /[A-Z]/.test(v) },
 ];
 
