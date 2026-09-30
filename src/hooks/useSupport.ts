@@ -46,7 +46,7 @@ export const useRaiseTicket = () => {
 export const useTickets = () => {
   const { data: session } = useSession();
   const [params, setParams] = useState<{ status: string }>({
-    status: "all",
+    status: "open", // default view: open tickets
   });
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const updateParams = (key: "status", value: string) => {

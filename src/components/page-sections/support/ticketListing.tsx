@@ -8,9 +8,7 @@ import { TTicketListResponse } from "@/types/ISupport";
 import { formatDistanceToNow } from "date-fns";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TagChip } from "@/components/ui/tag-chip";
-
-const statusLabel = (s: string) =>
-  s === "awaiting_admin" ? "Awaiting support" : s === "awaiting_client" ? "Awaiting you" : s.replace(/_/g, " ");
+import { TICKET_STATUSES, TICKET_STATUS_LABEL, ticketStatusLabel } from "@/constants/supportStatus";
 
 /** Reference ticket list: underline tabs + gold "+ New Ticket", 61px rows with hairlines. */
 const TicketListing = ({
@@ -30,11 +28,12 @@ const TicketListing = ({
   return (
     <motion.div variants={container_variants} initial="hidden" animate="visible" className="flex flex-col gap-6">
       <div className="flex items-end justify-between gap-4">
-        <Tabs value={params?.status ?? "all"} onValueChange={(value) => updateParams("status", value)}>
+        <Tabs value={params?.status ?? "open"} onValueChange={(value) => updateParams("status", value)}>
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="awaiting_admin">Awaiting support</TabsTrigger>
-            <TabsTrigger value="awaiting_client">Awaiting you</TabsTrigger>
+            {TICKET_STATUSES.map((s) => (
+              <TabsTrigger key={s} value={s}>{TICKET_STATUS_LABEL[s]}</TabsTrigger>
+            ))}
           </TabsList>
         </Tabs>
         <button
@@ -76,8 +75,8 @@ const TicketListing = ({
                 </span>
               </div>
               <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
-                <TagChip tone={ticket.status === "awaiting_client" ? "positive" : "default"}>
-                  {statusLabel(ticket.status)}
+                <TagChip tone={ticket.status === "awaiting_reply" ? "positive" : "default"}>
+                  {ticketStatusLabel(ticket.status)}
                 </TagChip>
                 <span className="text-[12px] leading-4 text-muted-foreground">
                   {formatDistanceToNow(new Date(ticket.last_message_at), { addSuffix: true })}

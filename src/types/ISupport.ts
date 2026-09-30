@@ -1,3 +1,4 @@
+import type { TicketStatus } from "@/constants/supportStatus";
 export interface TSupportMessage {
   id: string;
   ticket_id: string;
@@ -15,7 +16,7 @@ export interface TSupportTicket {
   id: string;
   user_id: string;
   subject: string;
-  status: "open" | "closed" | "awaiting_admin" | "awaiting_client";
+  status: TicketStatus;
   created_at: string;
   updated_at: string;
   last_message_at: string;

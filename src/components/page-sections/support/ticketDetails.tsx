@@ -9,14 +9,13 @@ import { useSupportSocket } from "@/hooks/useSupportSocket";
 import { Spinner } from "@heroui/react";
 import SupportMessageForm from "@/components/forms/supportMessageForm";
 import { TagChip } from "@/components/ui/tag-chip";
+import { ticketStatusLabel } from "@/constants/supportStatus";
 
 interface TicketDetailProps {
   ticketId: string;
   onBack: () => void;
 }
 
-const statusLabel = (s: string) =>
-  s === "awaiting_admin" ? "Awaiting support" : s === "awaiting_client" ? "Awaiting you" : s.replace(/_/g, " ");
 
 /** Reference-styled ticket thread: bordered 4px panel, gold client bubbles, navy support bubbles. */
 export default function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
@@ -55,8 +54,8 @@ export default function TicketDetail({ ticketId, onBack }: TicketDetailProps) {
             <h2 className="text-[18px] leading-6 font-medium text-foreground truncate">{ticket.subject}</h2>
             <p className="text-[12px] leading-4 text-muted-foreground">Ticket #{ticket.id}</p>
           </div>
-          <TagChip tone={ticket.status === "awaiting_client" ? "positive" : "default"}>
-            {statusLabel(ticket.status)}
+          <TagChip tone={ticket.status === "awaiting_reply" ? "positive" : "default"}>
+            {ticketStatusLabel(ticket.status)}
           </TagChip>
         </div>
 
