@@ -2,15 +2,28 @@ import axiosInstance from "@/utils/axios";
 import { Services } from "@/constants/apiServices";
 
 // ── Intent-based flow (current) ───────────────────────────────────────────────
+// Shared by the hosted-checkout crypto gateways: CoinsBuy and UniPayment expose the
+// same create-intent / intent status endpoints under their own service path.
+
+export type TGatewayProvider = "coinsbuy" | "unipayment";
+
+export const GATEWAY_PROVIDERS: TGatewayProvider[] = ["coinsbuy", "unipayment"];
+
+export const isGatewayProvider = (provider?: string): provider is TGatewayProvider =>
+  GATEWAY_PROVIDERS.includes(provider as TGatewayProvider);
+
+const gatewayService = (provider: TGatewayProvider = "coinsbuy") =>
+  provider === "unipayment" ? Services.UNIPAYMENT : Services.COINSBUY;
 
 // POST /api/v1/coinsbuy/create-intent
 // Creates a PaymentIntent only — NO Deposit row until payment is confirmed
 export const createCoinsbayIntent = async (
   token: string,
   data: { amount: number },
+  provider: TGatewayProvider = "coinsbuy",
 ) => {
   const response = await axiosInstance(token).post(
-    `${Services.COINSBUY}/create-intent`,
+    `${gatewayService(provider)}/create-intent`,
     data,
   );
   return response.data;
@@ -21,9 +34,10 @@ export const createCoinsbayIntent = async (
 export const getCoinsbayIntentStatus = async (
   token: string,
   intentId: string,
+  provider: TGatewayProvider = "coinsbuy",
 ) => {
   const response = await axiosInstance(token).get(
-    `${Services.COINSBUY}/intent/${intentId}/status`,
+    `${gatewayService(provider)}/intent/${intentId}/status`,
   );
   return response.data;
 };

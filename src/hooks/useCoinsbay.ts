@@ -5,6 +5,7 @@ import {
   getCoinsbayIntentStatus,
   getCoinsbayWallets,
   getCoinsbayDepositStatus,
+  TGatewayProvider,
 } from "@/api/coinsbay";
 import { useQueryData } from "./useQueryData";
 import { useMutationData } from "./useMutation";
@@ -18,24 +19,27 @@ import { queryClient } from "@/components/providers/react-query";
 // ── Intent-based hooks (current flow) ────────────────────────────────────────
 
 /**
- * Creates a PaymentIntent on submit.
- * No Deposit row is created until CoinsBuy confirms payment.
+ * Creates a PaymentIntent on submit (CoinsBuy or UniPayment).
+ * No Deposit row is created until the gateway confirms payment.
  */
 export const useCreateCoinsbayIntent = (onSuccess: () => void = () => {}) => {
   const { data: session } = useSession();
-  const { setValue } = useCoinsbayUiStore();
+  const { setValue, setProvider } = useCoinsbayUiStore();
 
   const { mutate, isPending, isError, isSuccess, error } = useMutationData(
     ["createCoinsbayIntent"],
-    (data: { amount: number }) =>
-      createCoinsbayIntent(session?.user?.token as string, data),
+    async ({ provider = "coinsbuy", ...data }: { amount: number; provider?: TGatewayProvider }) => ({
+      ...(await createCoinsbayIntent(session?.user?.token as string, data, provider)),
+      provider,
+    }),
     ["coinsbayIntents"],
     (data) => {
-      // Store intent_id so the status poller knows what to watch
+      // Store intent_id (and its gateway) so the status poller knows what to watch
+      setProvider(data.provider);
       setValue(data.intent_id);
-      // Open CoinsBuy checkout in a new tab
+      // Open the gateway checkout in a new tab
       window.open(data.checkout_url, "_blank");
-      toast.success("Payment window opened — complete your USDT transfer");
+      toast.success("Payment window opened — complete your crypto payment");
       onSuccess();
     },
   );
@@ -47,18 +51,21 @@ export const useCreateCoinsbayIntent = (onSuccess: () => void = () => {}) => {
  * Polls intent status every 10 seconds.
  * When status transitions to "paid", deposit_id is set and balance will be credited.
  */
-export const useCoinsbayIntentStatus = (intentId: string) => {
+export const useCoinsbayIntentStatus = (
+  intentId: string,
+  provider: TGatewayProvider = "coinsbuy",
+) => {
   const { data: session } = useSession();
 
   const { data, isLoading, isError, refetch } = useQueryData(
-    ["coinsbayIntentStatus", intentId],
-    () => getCoinsbayIntentStatus(session?.user?.token as string, intentId),
+    ["coinsbayIntentStatus", provider, intentId],
+    () => getCoinsbayIntentStatus(session?.user?.token as string, intentId, provider),
     {
       enabled: !!session?.user?.token && !!intentId,
       refetchInterval: (query) => {
         // Stop polling once the intent reaches a terminal state
         const status = (query.state.data as TCoinsbayIntentStatusResponse)?.status;
-        if (status === "paid" || status === "expired" || status === "cancelled") {
+        if (status === "paid" || status === "expired" || status === "cancelled" || status === "failed") {
           // Invalidate deposit history so the new deposit appears
           if (status === "paid") {
             queryClient.invalidateQueries({ queryKey: ["deposit"], exact: false });

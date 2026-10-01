@@ -29,6 +29,7 @@ import { useTermsForAction } from "@/hooks/useTerms";
 import TermsDisplay from "@/components/terms/TermsDisplay";
 import { useCoinsbayIntentStatus } from "@/hooks/useCoinsbay";
 import { useCoinsbayUiStore } from "@/store/coinsBayUiStore";
+import { isGatewayProvider } from "@/api/coinsbay";
 import { Loader2 } from "lucide-react";
 
 const DepositForm = () => {
@@ -69,8 +70,9 @@ const DepositForm = () => {
   });
 
   // Coinsbay intent status — polls while checkout window is open
-  const { value: activeIntentId, setValue: clearIntentId } = useCoinsbayUiStore();
-  const { intentStatus } = useCoinsbayIntentStatus(activeIntentId);
+  const { value: activeIntentId, setValue: clearIntentId, provider: activeProvider } = useCoinsbayUiStore();
+  const { intentStatus } = useCoinsbayIntentStatus(activeIntentId, activeProvider);
+  const isGatewayMethod = isGatewayProvider(selectedPaymentMethod?.provider);
   const image_url = !selectedPaymentMethod?.image_url?.startsWith("https://")
     ? selectedPaymentMethod?.image_url : (process.env.NEXT_PUBLIC_R2_URL as string || "") + new URL(selectedPaymentMethod?.image_url).pathname;
   return (
@@ -85,7 +87,7 @@ const DepositForm = () => {
                 "rounded-xl border px-4 py-3 flex items-start gap-3 text-sm",
                 intentStatus.status === "paid"
                   ? "bg-green-500/10 border-green-500/30 text-green-600 dark:text-green-400"
-                  : intentStatus.status === "expired" || intentStatus.status === "cancelled"
+                  : intentStatus.status === "expired" || intentStatus.status === "cancelled" || intentStatus.status === "failed"
                     ? "bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400"
                     : "bg-blue-500/10 border-blue-500/30 text-blue-600 dark:text-blue-400"
               )}
@@ -122,12 +124,12 @@ const DepositForm = () => {
                     </button>
                   </div>
                 </>
-              ) : intentStatus.status === "cancelled" ? (
+              ) : intentStatus.status === "cancelled" || intentStatus.status === "failed" ? (
                 <>
                   <span className="text-lg leading-none mt-0.5">✕</span>
                   <div>
-                    <p className="font-semibold">Payment cancelled</p>
-                    <p className="text-xs opacity-75 mt-0.5">The payment was cancelled. Please try again.</p>
+                    <p className="font-semibold">Payment {intentStatus.status === "failed" ? "failed" : "cancelled"}</p>
+                    <p className="text-xs opacity-75 mt-0.5">The payment was {intentStatus.status === "failed" ? "not completed" : "cancelled"}. Please try again.</p>
                     <button
                       type="button"
                       onClick={() => clearIntentId("")}
@@ -378,7 +380,7 @@ const DepositForm = () => {
                   />
                 </div>
               </div>
-              {selectedPaymentMethod?.provider === "coinsbuy" && <Alert
+              {isGatewayMethod && <Alert
                 variant="default"
                 color="info"
                 className=" bg-blue-500/20  border-blue-500/30 gap-2"
@@ -406,7 +408,7 @@ const DepositForm = () => {
                 </div>
               </div>
               <Separator />
-              {selectedPaymentMethod?.provider !== "coinsbuy" && (
+              {!isGatewayMethod && (
                 <>
                   <div className="flex  flex-col gap-3">
                     {Object.entries((selectedPaymentMethod as any)?.parameters).map(

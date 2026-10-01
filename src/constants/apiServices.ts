@@ -14,6 +14,7 @@ export enum Services {
     WALLET_TRANSFERS = "/api/v1/wallet-transfers",
     PAYMENT_OPTIONS = "/api/v1/payment-options",
     COINSBUY = "/api/v1/coinsbuy",
+    UNIPAYMENT = "/api/v1/unipayment",
     SYSTEM_SETTINGS = "/api/v1/system-settings",
     FEEDBACK = "/api/v1/feedback",
     TERMS = "/api/v1/terms",

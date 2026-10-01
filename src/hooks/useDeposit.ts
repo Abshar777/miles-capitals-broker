@@ -30,6 +30,7 @@ import {
   useGetPaymentOptions,
 } from "./usePaymentOptions";
 import { useCreateCoinsbayIntent } from "./useCoinsbay";
+import { isGatewayProvider } from "@/api/coinsbay";
 import { queryClient } from "@/components/providers/react-query";
 
 export const useDeposit = () => {
@@ -103,9 +104,12 @@ export const useDeposit = () => {
   );
 
   const handleSubmit = (data: any) => {
-    if (selectedPaymentMethod?.provider === "coinsbuy") {
+    if (isGatewayProvider(selectedPaymentMethod?.provider)) {
       // Only pass amount — intent flow; no Deposit row created until payment confirmed
-      createCoinsbayIntentMutation({ amount: data.receiveAmount || data.amount });
+      createCoinsbayIntentMutation({
+        amount: data.receiveAmount || data.amount,
+        provider: selectedPaymentMethod.provider,
+      });
     } else {
       if (
         ((selectedPaymentMethod as any)?.parameters?.isImageRequire=="true" &&

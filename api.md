@@ -35,6 +35,7 @@ IB              = "/api/v1/ib"
 WALLET_TRANSFERS = "/api/v1/wallet-transfers"
 PAYMENT_OPTIONS = "/api/v1/payment-options"
 COINSBUY        = "/api/v1/coinsbuy"
+UNIPAYMENT      = "/api/v1/unipayment"
 ```
 
 ---
@@ -247,7 +248,13 @@ COINSBUY        = "/api/v1/coinsbuy"
 
 ---
 
-## `src/api/coinsbay.ts` — Crypto Payments (CoinsBuy)
+## `src/api/coinsbay.ts` — Crypto Payments (CoinsBuy, UniPayment)
+
+`createCoinsbayIntent(token, {amount}, provider)` and `getCoinsbayIntentStatus(token, id, provider)` serve both
+hosted-checkout gateways: `provider` "coinsbuy" → `/api/v1/coinsbuy/...`, "unipayment" → `/api/v1/unipayment/...`
+(`create-intent`, `intent/{id}/status`). The deposit form picks the flow from the payment option's `provider`
+(`isGatewayProvider`), opens `checkout_url` in a new tab and polls every 10s until paid / expired / cancelled / failed.
+UniPayment credits the wallet when the invoice is Confirmed (webhook `/api/v1/unipayment/webhook`, server-side).
 
 **Why used**: Alternative deposit method using cryptocurrency. Creates a payment intent and monitors status.
 

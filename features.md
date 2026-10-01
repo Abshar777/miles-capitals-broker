@@ -81,7 +81,7 @@ All auth pages share the Miles Capital reference look (see `design.md` → Auth 
 - Select payment method (bank transfer, card, crypto)
 - Payment options fetched from `/api/v1/payment-options`
 - Upload proof of payment (Cloudflare R2)
-- CoinsBuy crypto payment integration
+- CoinsBuy and UniPayment crypto payment integration (hosted checkout, status banner)
 - Pending status tracking
 
 ### Withdrawal (`/root/funds/withdraw`)
@@ -218,6 +218,7 @@ This means filter state survives page refresh and can be shared via URL.
 | Bank Transfer | Manual upload | Active |
 | Credit/Debit Card | Payment gateway | Active |
 | Crypto | CoinsBuy API | Active |
+| Crypto | UniPayment invoices (provider `unipayment`) | Active once configured |
 | Custom | Admin-configured payment options | Configurable |
 
 ---
@@ -241,5 +242,6 @@ enum Services {
   WALLET_TRANSFERS = "/api/v1/wallet-transfers"
   PAYMENT_OPTIONS  = "/api/v1/payment-options"
   COINSBUY = "/api/v1/coinsbuy"
+  UNIPAYMENT = "/api/v1/unipayment"
 }
 ```
