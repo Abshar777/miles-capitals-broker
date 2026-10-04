@@ -15,7 +15,7 @@ const countryOptions = countryCodes
   .map((c) => ({ value: c.name, label: c.name, flag: c.country }));
 
 const RegisterForm = ({ code }: { code?: string }) => {
-  const { register, onFormSubmit, errors, isPending, setValue, watch, formState } = useAuth(
+  const { register, onFormSubmit, errors, isPending, setValue, watch } = useAuth(
     "register",
     code
   );
@@ -23,16 +23,9 @@ const RegisterForm = ({ code }: { code?: string }) => {
 
   const country = watch("country");
   const password = watch("password") || "";
-  const values = watch();
-  const filled =
-    !!values.firstname &&
-    !!values.lastname &&
-    !!values.city &&
-    !!values.phone &&
-    !!values.email &&
-    !!values.password &&
-    !!values.repeat_password;
-  const canSubmit = filled && agreed && formState.isValid;
+  // Only the agreement gates the button: pressing it with a problem shows the
+  // errors (a disabled button would hide them).
+  const canSubmit = agreed;
 
   return (
     <form onSubmit={onFormSubmit} className="w-full flex flex-col gap-4" noValidate>

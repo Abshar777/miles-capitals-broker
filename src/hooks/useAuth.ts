@@ -65,16 +65,22 @@ export const useAuth = (type: "login" | "register", code?: string) => {
     }
   }, [isPending, isError]);
   const { register, onFormSubmit, errors, reset, setValue, watch, getValues, formState } =
-    useZodForm(schema, mutate, {
-      country: "India",
-      city: "",
-      firstname: "",
-      lastname: "",
-      phone: "",
-      email: "",
-      password: "",
-      repeat_password: "",
-    });
+    useZodForm(
+      schema,
+      mutate,
+      {
+        country: "India",
+        city: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        email: "",
+        password: "",
+        repeat_password: "",
+      },
+      // Sign-up shows each field's error as soon as it is left; login keeps on-submit.
+      type === "register" ? "onTouched" : "onSubmit",
+    );
 
   const {
     mutate: claimRefral,

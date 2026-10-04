@@ -45,7 +45,9 @@ const AuthPhone = ({
   }, [country]);
 
   useEffect(() => {
-    setValue(name, number ? `${code} ${number}` : "", {
+    // Stored as "+91 9876543210": brackets, dashes and spaces typed in the number are dropped.
+    const digits = number.replace(/\D/g, "");
+    setValue(name, digits ? `${code} ${digits}` : "", {
       shouldValidate: number.length > 0,
       shouldDirty: true,
     });

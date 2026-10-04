@@ -2,19 +2,19 @@ import { z } from "zod";
 
 const signUpSchema = z
   .object({
-    firstname: z.string().min(2, "Name must contain at least 2 letters"),
-    lastname: z.string().min(2, "Name must contain at least 2 letters"),
+    firstname: z.string().trim().min(2, "Name must contain at least 2 letters"),
+    lastname: z.string().trim().min(2, "Name must contain at least 2 letters"),
     phone: z.string().min(1, "Phone number is required").refine(
       (val) => {
-        // Strip all spaces, then validate E.164-style: +{code}{local}, 7–15 digits total
-        const cleaned = val.replace(/\s+/g, "");
+        // Strip spaces, brackets and dashes, then validate E.164-style: +{code}{local}, 7–15 digits total
+        const cleaned = val.replace(/[\s()-]+/g, "");
         return /^\+\d{7,15}$/.test(cleaned);
       },
       { message: "Please enter a valid phone number" }
     ),
     country: z.string().min(2, "Country must contain at least 2 letters").optional(),
-    city: z.string().min(2, "City must contain at least 2 letters").optional(),
-    email: z.string().email("Invalid email address"),
+    city: z.string().trim().min(2, "City must contain at least 2 letters").optional(),
+    email: z.string().trim().email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters long").
     // password: 8+ chars with 1 lowercase, 1 uppercase and 1 digit (no special character required)
     refine((val) => {  

@@ -8,11 +8,13 @@ import { toast } from "sonner";
 const useZodForm = <T extends z.ZodSchema>(
   schema: T,
   mutation: UseMutateFunction<any, any, z.infer<T>>,
-  defaultValues?: z.infer<T>
+  defaultValues?: z.infer<T>,
+  mode: "onChange" | "onBlur" | "onSubmit" | "onTouched" | "all" = "onSubmit"
 ) => {
   const form = useForm<z.infer<T>>({
     resolver: zodResolver(schema as any),
     defaultValues,
+    mode,
   });
 
   const { handleSubmit, formState, ...rest } = form;
