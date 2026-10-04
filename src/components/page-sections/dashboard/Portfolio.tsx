@@ -17,7 +17,7 @@ const fmt = (n: number) =>
 /** Reference "Portfolio" block: pills, dashed Balance label, big amount, Deposit + Transfer. */
 const Portfolio = () => {
   const router = useRouter();
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<Filter>("wallet");
   const { data: wallet, isLoading: walletLoading } = useWalletBalance();
   const { accounts, isLoading: mt5Loading } = useGetMt5AccList();
 

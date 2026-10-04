@@ -34,7 +34,7 @@ All auth pages share the Miles Capital reference look (see `design.md` → Auth 
 ## Dashboard (`/root/dashboard`)
 - Header title "Welcome, {first name}"
 - Identity-verification banner with ring progress and "Verify Now" (hidden once KYC approved)
-- Portfolio block: All / Trading Accounts / Wallet pills, combined balance (wallet + live MT5), Deposit and Transfer shortcuts
+- Portfolio block: All / Trading Accounts / Wallet pills (opens on Wallet), balance for the selected pill (All = wallet + live MT5), Deposit and Transfer shortcuts
 - Last Transactions: latest 4 from the all-transactions feed with direction-colored amounts and status dots, "All" link to Transaction History
 - Trading Accounts: horizontal row of MT5 account cards (balance, login, Transfer), "+ Create New" opens the MT5 connect modal
 
