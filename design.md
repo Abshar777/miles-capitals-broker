@@ -765,3 +765,9 @@ Page-level:
 All UI icons are drawn from the reference portal's icon sprite. `public/miles/icons.svg` is a trimmed copy (89 symbols) of `images-collection.flexdns.tech/.../icons-sprite-4.8.0.svg`; add more symbols there when needed (ids are `icon-reg--ui-icon--<name>-16`). Use `components/ui/icon.tsx`: `<Icon name="dashboard-16" size={16} className="text-muted-foreground" />` — it fills with `currentColor`. Sidebar mapping lives in `NAV_ICON` inside `layout/app-sidebar/index.tsx` (dashboard, wallet, mt5, finance, history-backward, support, partnership); header uses sun/moon, notification, document; select chevron = `dropdown-16`; checkbox tick = `check-16`; empty states = `no-data-16`; favorites = `favorite-outline-16` / `favorite-filled-16`. Lucide is only kept for the loading spinner.
 
 Buttons follow the reference interaction: `cursor: pointer` on every enabled button (global rule), `not-allowed` when disabled; primary hover = `brightness(1.1)` + 1px gold inset outline over 150ms; navy (secondary) hover = 1px `primary/40` outline; disabled primary keeps the gold fill with 30% black text, exactly like the reference's disabled "Log In" / "Continue".
+
+## Mobile popups (`src/components/ui/modal.tsx`)
+- `<Modal>` opens a centred dialog on desktop and a bottom drawer on mobile (`useIsMobile`).
+- The mobile drawer is capped at `height` (default 90) **dvh** via an inline style, and its body is a native
+  `overflow-y-auto` block marked `data-vaul-no-drag`, so tall forms (e.g. Connect New Account) scroll to their
+  last field and button. Don't build Tailwind classes from variables (`h-[${height}vh]`): they are never generated.

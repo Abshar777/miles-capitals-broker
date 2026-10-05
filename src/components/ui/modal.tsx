@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerHeader } from "./drawer";
-import { ScrollArea } from "./scroll-area";
 
 interface ModalProps {
   title: string;
@@ -49,15 +48,22 @@ export const Modal: React.FC<ModalProps> = ({
       )}
       {isMobile&&(
         <Drawer shouldScaleBackground={true} open={isOpen} onOpenChange={onChange}>
-          <DrawerContent className="pt-2   px-4">
-          <DrawerHeader>
+          {/* Height is an inline style: Tailwind cannot generate classes built at runtime
+              (h-[${height}vh] never existed), and dvh excludes the mobile address bar. */}
+          <DrawerContent
+            className="pt-2 px-4"
+            style={{ maxHeight: `${height ?? 90}dvh` }}
+          >
+          <DrawerHeader className="shrink-0">
             <DrawerTitle>{title}</DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <div className=" h-full">
-          <ScrollArea className={`h-[${height}vh] pb-4`}>
+          {/* Scrolls by touch; data-vaul-no-drag keeps a swipe here scrolling instead of closing the drawer. */}
+          <div
+            data-vaul-no-drag
+            className="flex-1 min-h-0 overflow-y-auto overscroll-contain pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
+          >
           {children}
-          </ScrollArea>
           </div>
           </DrawerContent>
         </Drawer>
