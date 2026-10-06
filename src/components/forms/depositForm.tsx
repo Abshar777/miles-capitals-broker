@@ -3,6 +3,7 @@ import { Form, FormField } from "@/components/ui/form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useDeposit } from "@/hooks/useDeposit";
 import FormGeneratorV2 from "../global/form-generator/v2";
+import ProofImagesUpload from "../global/proofImagesUpload";
 import {
   FaArrowRight,
   FaDollarSign,
@@ -442,26 +443,16 @@ const DepositForm = () => {
                       control={form.control}
                       name="file"
                       render={({ field }) => (
-                        <div className="flex relative justify-end items-center">
-                          <FormGeneratorV2
-                            activeDefault={true}
-                            inputType="upload"
-                            label="Upload your payment receipt here."
-                            field={field}
-                            options={fromCurrencies as any}
-                            // max={lockPeriodData?.withdrawableAmount || 10}
-                            errors={errors}
-                            placeholder="Upload your payment receipt here. "
-                            Icon={FaUpload}
-                            indicatorText="Max"
-                            acceptedFileTypes="image/*"
-                            className={{
-                              input:
-                                "w-full bg-muted-foreground/10 dark:bg-muted dark:border-muted-foreground/10 border-muted-foreground/20",
-                              main: "w-full ",
-                            }}
-                          />
-                        </div>
+                        <ProofImagesUpload
+                          label="Upload your payment receipt here."
+                          required
+                          value={field.value as File[] | undefined}
+                          onChange={(files) => {
+                            field.onChange(files);
+                            if (files.length) form.clearErrors("file");
+                          }}
+                          hasError={!!errors.file}
+                        />
                       )}
                     />
                   </div>}

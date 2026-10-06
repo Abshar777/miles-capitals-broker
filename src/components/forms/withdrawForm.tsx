@@ -5,6 +5,7 @@ import { useDeposit } from "@/hooks/useDeposit";
 import { useTermsForAction } from "@/hooks/useTerms";
 import TermsDisplay from "@/components/terms/TermsDisplay";
 import FormGeneratorV2 from "../global/form-generator/v2";
+import ProofImagesUpload from "../global/proofImagesUpload";
 import {
   FaArrowRight,
   FaCode,
@@ -201,6 +202,22 @@ const WithdrawForm = () => {
                 }}
               />
             ))}
+
+          {selectedWithdrawalType && (
+            <FormField
+              control={form.control}
+              name="proof_images"
+              render={({ field }) => (
+                <ProofImagesUpload
+                  label="Upload proof (optional)"
+                  className="col-span-full"
+                  value={field.value as File[] | undefined}
+                  onChange={field.onChange}
+                  hasError={!!(errors as any).proof_images}
+                />
+              )}
+            />
+          )}
         </div>
         {/* Terms & Conditions */}
         {(withdrawTerms.length > 0 || termsLoading) && (

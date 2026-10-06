@@ -113,7 +113,7 @@ export const useDeposit = () => {
     } else {
       if (
         ((selectedPaymentMethod as any)?.parameters?.isImageRequire=="true" &&
-        !data.file)
+        !(data.file && data.file.length > 0))
       ) {
         form.setError("file", {
           message: "Please upload proof of deposit",
@@ -134,7 +134,7 @@ export const useDeposit = () => {
       payment_mode: "",
       payment_option_id: "",
       receiveAmount: 0,
-      file: undefined,
+      file: [],
     },
   );
   const {

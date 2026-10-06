@@ -39,7 +39,8 @@ export const withdrawBankTransferSchema = z.object({
 export const withdrawSchema = z.object({
     currency: z.string().min(1, "Currency is required"),
     amount: z.number().min(1, "Amount must be greater than 0"),
-    
+    // Optional proof images, uploaded right after the withdrawal is created (max 5, jpg/png/webp, 5 MB each)
+    proof_images: z.array(z.instanceof(File)).max(5, "You can upload at most 5 images").optional(),
 })
 
 export type withdrawSchemaType = z.infer<typeof withdrawCashSchema> | z.infer<typeof withdrawCryptoSchema> | z.infer<typeof withdrawBankTransferSchema>

@@ -80,7 +80,7 @@ All auth pages share the Miles Capital reference look (see `design.md` → Auth 
 ### Deposit (`/root/funds/deposit`)
 - Select payment method (bank transfer, card, crypto)
 - Payment options fetched from `/api/v1/payment-options`
-- Upload proof of payment (Cloudflare R2)
+- Upload proof of payment: up to 5 images (jpg/png/webp, 5 MB each) with thumbnails, stored in Cloudflare R2
 - CoinsBuy and UniPayment crypto payment integration (hosted checkout, status banner)
 - Pending status tracking
 
@@ -88,6 +88,7 @@ All auth pages share the Miles Capital reference look (see `design.md` → Auth 
 - Withdrawal amount entry
 - Select withdrawal method
 - Bank account details entry
+- Optional proof images (up to 5), uploaded right after the request is created
 - Minimum/maximum amount validation
 - Pending approval flow
 

@@ -7,6 +7,7 @@ import {
   cancelWithdrawal,
   getWithdrawalTypes,
   createWithdrawal,
+  uploadWithdrawalProofs,
 } from "@/api/withdraw";
 import { getSystemSettings } from "@/api/systemSettings";
 import { useQueryData } from "./useQueryData";
@@ -158,16 +159,31 @@ export const useWithdraw = () => {
 
   const { mutate, isPending, error } = useMutationData(
     ["withdraw"],
-    (data: any) =>
-      createWithdrawal(
+    async (data: any) => {
+      const { proof_images, ...rest } = data;
+      const token = session?.user?.token as string;
+      const res = await createWithdrawal(
         {
-          ...data,
+          ...rest,
           withdrawal_type_id: selectedWithdrawalType?.id,
           withdrawal_name: selectedWithdrawalType?.group_name,
           details: details,
         },
-        session?.user?.token as string,
-      ),
+        token,
+      );
+      // Proof images go up once the withdrawal exists; a failure here doesn't undo the withdrawal.
+      const withdrawalId = res?.data?.withdrawal_id;
+      if (withdrawalId && proof_images?.length) {
+        try {
+          await uploadWithdrawalProofs(withdrawalId, proof_images, token);
+        } catch (e: any) {
+          toast.error("Withdrawal submitted, but the proof images could not be uploaded", {
+            description: e?.response?.data?.detail?.error?.message || e?.response?.data?.detail || e?.message,
+          });
+        }
+      }
+      return res;
+    },
     ["withdraw-history"],
     () => {
       toast.success("Withdrawal request submitted successfully");
@@ -182,6 +198,7 @@ export const useWithdraw = () => {
     {
       currency: "",
       amount: 0,
+      proof_images: [],
     } as any,
   );
 

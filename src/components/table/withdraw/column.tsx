@@ -25,6 +25,7 @@ import { statusBadge } from "@/constants/curency";
 import { useEffect } from "react";
 import { TWithdrawHistoryApiResponse } from "@/types/api.response";
 import { formatIST } from "@/lib/utils";
+import ProofImagesGallery from "@/components/global/proofImagesGallery";
 
 export type Cloumn = TWithdrawHistoryApiResponse & {
   rowNumber: number;
@@ -186,6 +187,9 @@ export const columns: ColumnDef<Cloumn>[] = [
                   </AlertDescription>
                 </Alert>
               )}
+
+              {/* Proof images uploaded with the request */}
+              <ProofImagesGallery urls={withdrawal.proof_images} />
             </div>
           </Modal>
         </>

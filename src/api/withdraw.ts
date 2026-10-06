@@ -121,3 +121,11 @@ export const createWithdrawal = async (
   };
   return await axiosInstance(token).post(`${Services.WITHDRAW}s`, newData);
 };
+
+// POST /api/v1/withdrawals/{id}/proofs - attach proof images to the client's own pending withdrawal
+export const uploadWithdrawalProofs = async (withdrawalId: string, files: File[], token: string) => {
+  const formData = new FormData();
+  for (const file of files) formData.append("proof_images", file);
+  const { data } = await axiosInstance(token).post(`${Services.WITHDRAW}s/${withdrawalId}/proofs`, formData);
+  return data;
+};

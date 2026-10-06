@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { statusBadge } from "@/constants/curency";
+import ProofImagesGallery from "@/components/global/proofImagesGallery";
 
 const WithdrawHistory = () => {
   const { withdrawHistory, isLoading, error } = useWithdrawHistory();
@@ -117,6 +118,7 @@ const WithdrawHistory = () => {
               <AlertDescription>{dataInfo?.admin_notes}</AlertDescription>
             </Alert>
           )}
+          <ProofImagesGallery urls={dataInfo?.proof_images} />
           {dataInfo?.status === "pending" && (
             <div className="col-span-2">
               <Button

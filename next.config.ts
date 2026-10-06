@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    // Proof uploads (up to 5 images x 5 MB) pass through the middleware on /proxy.
+    // Next.js 15.5 cuts request bodies above 10 MB unless this is raised.
+    middlewareClientMaxBodySize: "30mb",
+  },
   images: {
     domains: [
       "localhost",

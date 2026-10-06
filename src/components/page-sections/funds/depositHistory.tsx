@@ -23,6 +23,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { TDepositHistoryApiResponse } from "@/types/api.response";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { toast } from "sonner";
+import ProofImagesGallery from "@/components/global/proofImagesGallery";
 
 const DepoitHistory = () => {
   const { depositHistory, isLoading, isError, isSuccess, error } =
@@ -148,6 +149,9 @@ const DepoitHistory = () => {
               </AlertDescription>
             </Alert>
           )}
+          <ProofImagesGallery
+            urls={dataInfo?.proof_images?.length ? dataInfo.proof_images : [dataInfo?.proof_deposit_image]}
+          />
         </div>
 
         {/* <p className="text-center"> <span className="text-primary">{dataInfo?.comment}</span></p> */}

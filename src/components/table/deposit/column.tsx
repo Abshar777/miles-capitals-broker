@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { TDepositHistoryApiResponse } from "@/types/api.response";
 import { statusBadge } from "@/constants/curency";
 import { copyToClipboard, formatIST } from "@/lib/utils";
+import ProofImagesGallery from "@/components/global/proofImagesGallery";
 
 export type Cloumn = TDepositHistoryApiResponse & {
   rowNumber: number;
@@ -228,20 +229,10 @@ export const useDepositColumns = () => {
           </Alert>
         )}
 
-        {/* Proof Image */}
-        {dataInfo?.proof_deposit_image && (
-          <div className="col-span-2">
-            <p className="mb-2 font-medium">Proof Image:</p>
-            <img
-              src={dataInfo.proof_deposit_image}
-              alt="Proof"
-              className="rounded-lg cursor-pointer border max-h-60"
-              onClick={() =>
-                window.open(dataInfo.proof_deposit_image, "_blank")
-              }
-            />
-          </div>
-        )}
+        {/* Proof Images (all of them; older deposits fall back to the single image) */}
+        <ProofImagesGallery
+          urls={dataInfo?.proof_images?.length ? dataInfo.proof_images : [dataInfo?.proof_deposit_image]}
+        />
       </div>
     </Modal>
   );

@@ -7,7 +7,7 @@ export const deposit = async (
   data: {
     amount: number;
     to: string;
-    file: File;
+    file?: File[]; // proof images (up to 5)
     from: string;
     payment_mode: string;
     payment_option_id: string;
@@ -21,7 +21,8 @@ export const deposit = async (
   formData.append("amount", data.amount.toString());
   formData.append("receive_amount", data.receiveAmount.toString());
   formData.append("currency", data.from);
-  if (data.file) formData.append("proof_deposit_image", data.file);
+  // Every proof image goes under the same field name; the backend accepts up to 5.
+  for (const file of data.file ?? []) formData.append("proof_images", file);
   formData.append("payment_mode", data.payment_mode);
   formData.append("payment_option_id", data.payment_option_id);
   return await axiosInstance(token).post(

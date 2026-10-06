@@ -86,7 +86,7 @@ UNIPAYMENT      = "/api/v1/unipayment"
 
 | Function | Method | Endpoint | Body / Params | Used On Page |
 |----------|--------|----------|--------------|-------------|
-| `deposit` | POST | `/api/v1/deposit/deposit` | FormData: `{amount, receive_amount, currency, proof_deposit_image, payment_mode, payment_option_id}` | `/root/funds/deposit` |
+| `deposit` | POST | `/api/v1/deposit/deposit` | FormData: `{amount, receive_amount, currency, payment_mode, payment_option_id}` + one `proof_images` entry per image (max 5) | `/root/funds/deposit` |
 | `getDepositeHistory` | GET | `/api/v1/deposit/deposits/history` | `?skip&limit&status&currency&payment_mode&date_from&date_to` | `/root/transactions` |
 | `deleteDeposit` | DELETE | `/api/v1/deposit/deposit/{id}` | deposit id in path | `/root/transactions` (cancel button) |
 
@@ -330,3 +330,16 @@ Most list endpoints use:
 ?offset=0&limit=20  // alternative naming
 ```
 URL state managed via `nuqs` — pagination state persists in URL.
+
+## Proof images (deposits and withdrawals)
+
+- `src/components/global/proofImagesUpload.tsx` is the picker:
+  - jpg/png/webp, max 5 MB each, max 5
+  - thumbnails with a ✕ to remove each one
+  - used in the deposit form (`file`) and the withdraw form (`proof_images`, optional)
+- `src/components/global/proofImagesGallery.tsx` shows the uploaded images in the deposit and withdrawal details popups.
+- `uploadWithdrawalProofs(withdrawalId, files, token)` in `src/api/withdraw.ts` calls
+  `POST /api/v1/withdrawals/{id}/proofs` (multipart `proof_images`).
+  - `useWithdraw` calls it right after the withdrawal is created.
+  - If it fails, the user sees a toast; the withdrawal itself stays.
+- `next.config.ts` sets `experimental.middlewareClientMaxBodySize: "30mb"`. Without it, uploads over 10 MB are cut off in the `/proxy` middleware.

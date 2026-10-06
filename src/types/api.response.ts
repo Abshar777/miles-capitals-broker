@@ -20,6 +20,7 @@ export type TDepositHistoryApiResponse = {
   status: "pending" | "approved" | "rejected"; // inferred from 'pending' — extend as needed
   approved_at: string | null; // ISO date string or null
   proof_deposit_image: string;
+  proof_images?: string[] | null; // all proof image URLs (up to 5)
   payment_mode: string;
   created_by_admin_email: string | null;
   balance_after: number;
@@ -90,6 +91,7 @@ export type TWithdrawHistoryApiResponse = {
   withdrawal_method: string;
   withdrawal_name: string;
   withdrawal_type_id: string;
+  proof_images?: string[] | null; // client-uploaded proof images (up to 5)
 };
 
 // {
