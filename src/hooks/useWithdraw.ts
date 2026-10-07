@@ -162,12 +162,18 @@ export const useWithdraw = () => {
     async (data: any) => {
       const { proof_images, ...rest } = data;
       const token = session?.user?.token as string;
+      // Save the details in the withdrawal type's field order (not the order the client typed them),
+      // so the admin always sees e.g. holder name, account number, IFSC, bank, branch, swift in that order.
+      const fieldOrder: string[] = (selectedWithdrawalType?.fields ?? []).map((f: any) => f.name);
+      const orderedDetails: Record<string, any> = {};
+      for (const key of fieldOrder) if (details && key in details) orderedDetails[key] = details[key];
+      for (const [key, value] of Object.entries(details ?? {})) if (!(key in orderedDetails)) orderedDetails[key] = value;
       const res = await createWithdrawal(
         {
           ...rest,
           withdrawal_type_id: selectedWithdrawalType?.id,
           withdrawal_name: selectedWithdrawalType?.group_name,
-          details: details,
+          details: orderedDetails,
         },
         token,
       );

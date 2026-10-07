@@ -89,6 +89,7 @@ All auth pages share the Miles Capital reference look (see `design.md` → Auth 
 - Select withdrawal method
 - Bank account details entry
 - Optional proof images (up to 5), uploaded right after the request is created
+- Payment details are saved in the withdrawal type's field order (not the order the client typed them)
 - Minimum/maximum amount validation
 - Pending approval flow
 
