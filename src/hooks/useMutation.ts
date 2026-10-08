@@ -29,10 +29,14 @@ export const useMutationData = (
         };
       };
      
-      if (data?.detail)
+      const detailObj = data?.detail as any;
+      if (typeof data?.detail === "string")
         toast.error(data.detail.split(":")[0], {
           description: data.detail.split(":")[2],
         });
+      else if (detailObj?.error?.message)
+        // Structured errors: {detail: {success: false, error: {code, message}}}
+        toast.error(detailObj.error.message);
       else if (data?.error) {
         console.log(data.error.message);
         toast.error(data.error.message);
