@@ -87,17 +87,17 @@ const page = () => {
         initial="hidden"
         animate="visible"
         variants={container_variants}
-        className="flex flex-1 flex-col gap-6 w-full"
+        className="flex flex-1 flex-col gap-6 w-full min-w-0"
       >
         {/* Level header */}
-        <motion.div variants={item_variants} className="flex items-center gap-4">
+        <motion.div variants={item_variants} className="flex flex-wrap items-center gap-4">
           <div className="size-14 rounded-full bg-field flex items-center justify-center text-muted-foreground shrink-0">
             <Icon name="user-16" size={24} />
           </div>
           <div className="flex-1 min-w-0 flex flex-col gap-2">
             <div className="flex flex-col">
               <span className="text-[12px] leading-4 text-muted-foreground">Your level</span>
-              <span className="flex items-center gap-2 text-[18px] leading-6 font-medium text-foreground">
+              <span className="flex flex-wrap items-center gap-2 text-[18px] leading-6 font-medium text-foreground">
                 <Icon name="verification-16" size={16} className="text-muted-foreground" />
                 {isLoading ? <Skeleton className="h-5 w-16 bg-field rounded-[4px]" /> : `${level} of 1`}
                 {status === "submitted" && <TagChip tone="default">Under review</TagChip>}
@@ -112,7 +112,7 @@ const page = () => {
             type="button"
             disabled={isLoading || !canUpgrade}
             onClick={() => router.push("/root/verification/upgrade")}
-            className="h-10 shrink-0 rounded-[4px] bg-primary px-6 text-[13.33px] text-black outline outline-1 -outline-offset-1 outline-transparent hover:brightness-110 hover:outline-primary transition-[filter,outline-color] duration-150 ease-in-out disabled:text-black/30 disabled:hover:brightness-100 disabled:hover:outline-transparent"
+            className="h-10 w-full sm:w-auto shrink-0 rounded-[4px] bg-primary px-6 text-[13.33px] text-black outline outline-1 -outline-offset-1 outline-transparent hover:brightness-110 hover:outline-primary transition-[filter,outline-color] duration-150 ease-in-out disabled:text-black/30 disabled:hover:brightness-100 disabled:hover:outline-transparent"
           >
             {status === "rejected" ? "Reapply" : "Upgrade"}
           </button>
@@ -121,7 +121,7 @@ const page = () => {
         {/* Level tabs */}
         <motion.div variants={item_variants}>
           <Tabs onValueChange={setActiveTab} value={activeTab}>
-            <TabsList>
+            <TabsList className="max-w-full overflow-x-auto">
               <TabsTrigger value="level0" className="gap-2">
                 Level 0
                 {level === 0 && <TagChip tone="positive">Current</TagChip>}
@@ -215,8 +215,8 @@ const page = () => {
                   <TableRow key={doc.id}>
                     <TableCell>{doc.document_type?.replace(/_/g, " ") || "-"}</TableCell>
                     <TableCell className="text-muted-foreground">{doc.document_name}</TableCell>
-                    <TableCell>{doc.uploaded_at ? formatIST(doc.uploaded_at, { day: "2-digit", month: "2-digit", year: "numeric" }) : "-"}</TableCell>
-                    <TableCell>{doc.reviewed_at ? formatIST(doc.reviewed_at, { day: "2-digit", month: "2-digit", year: "numeric" }) : "-"}</TableCell>
+                    <TableCell className="whitespace-nowrap">{doc.uploaded_at ? formatIST(doc.uploaded_at, { day: "2-digit", month: "2-digit", year: "numeric" }) : "-"}</TableCell>
+                    <TableCell className="whitespace-nowrap">{doc.reviewed_at ? formatIST(doc.reviewed_at, { day: "2-digit", month: "2-digit", year: "numeric" }) : "-"}</TableCell>
                     <TableCell>
                       <StatusDot status={doc.status} size="md" />
                     </TableCell>
