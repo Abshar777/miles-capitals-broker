@@ -83,6 +83,24 @@ const DepositList = (props: Props) => {
             </SelectContent>
           </Select>
 
+          <Select value={params.sort_by} onValueChange={(value) => updateParams("sort_by", value)}>
+            <SelectTrigger className="w-full md:w-[220px] px-4">
+              <SelectValue placeholder="Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              {[
+                ["created_desc", "Created: newest first"],
+                ["created_asc", "Created: oldest first"],
+                ["processed_desc", "Processed: newest first"],
+                ["processed_asc", "Processed: oldest first"],
+              ].map(([value, label]) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           <TableDatePicker onChangeFrom={(e => {
             updateParams("date_from", e)
           })} onChangeTo={(e => {

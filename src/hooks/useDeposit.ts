@@ -389,6 +389,7 @@ export const useDepositeHistory = () => {
     date_from: "",
     date_to: "",
     status: "all",
+    sort_by: "created_desc",
   });
 
   const updateParams = (key: keyof typeof params, value: string) => {

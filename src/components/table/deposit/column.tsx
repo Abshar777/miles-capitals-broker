@@ -111,6 +111,18 @@ export const useDepositColumns = () => {
         </div>
       ),
     },
+    {
+      // When the deposit was approved or rejected
+      accessorKey: "approved_at",
+      header: "Processed At",
+      cell: ({ row }) => (
+        <div className="whitespace-nowrap">
+          {(row.original as any).approved_at
+            ? formatIST((row.original as any).approved_at, { day: "2-digit", month: "short", year: "numeric" })
+            : "—"}
+        </div>
+      ),
+    },
 
   ];
 

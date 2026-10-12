@@ -39,6 +39,7 @@ export const getDepositeHistory = async (
     payment_mode?: string;
     date_from?: string;
     date_to?: string;
+    sort_by?: string; // created_desc | created_asc | processed_desc | processed_asc
   } = {},
 ) => {
   const cleanedParams = cleanParams(params);
