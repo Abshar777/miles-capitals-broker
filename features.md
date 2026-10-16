@@ -247,3 +247,5 @@ enum Services {
   UNIPAYMENT = "/api/v1/unipayment"
 }
 ```
+
+- MT5 -> wallet transfers: status `idle` shows as "Processing" (StatusDot). If the transfer can't be confirmed instantly, the form shows a "Transfer is processing" warning toast instead of success (2026-10-16).

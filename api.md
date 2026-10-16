@@ -343,3 +343,5 @@ URL state managed via `nuqs` — pagination state persists in URL.
   - `useWithdraw` calls it right after the withdrawal is created.
   - If it fails, the user sees a toast; the withdrawal itself stays.
 - `next.config.ts` sets `experimental.middlewareClientMaxBodySize: "30mb"`. Without it, uploads over 10 MB are cut off in the `/proxy` middleware.
+
+- `POST /api/v1/mt5/transfer-to-wallet` returns `request_status`: `completed` (done) or `idle` (being reviewed; show as Processing). A 400 means MT5 refused and nothing was transferred.

@@ -5,6 +5,7 @@ const COLOR: Record<string, string> = {
   pending: "bg-warning",
   submitted: "bg-warning",
   processing: "bg-warning",
+  idle: "bg-warning",
   transfer_out: "bg-warning",
   completed: "bg-positive",
   success: "bg-positive",
@@ -18,6 +19,7 @@ const COLOR: Record<string, string> = {
 
 const LABEL: Record<string, string> = {
   transfer_out: "Transfer out",
+  idle: "Processing", // MT5 -> wallet transfer awaiting review
 };
 
 /** 8px colored dot + capitalised label, as used in reference lists and tables. */

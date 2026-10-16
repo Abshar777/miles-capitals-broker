@@ -43,8 +43,13 @@ export const useMt5ToWalletTransfer = () => {
     (data: any) =>
       mt5ToWalletTransfer(data, session?.user?.token as string, credentialsId),
     ["transfer"],
-    async () => {
-      toast.success("Transfer successful");
+    async (res: any) => {
+      // "idle": MT5 did not confirm instantly; the team reviews it (shown as Processing)
+      if (res?.request_status === "idle") {
+        toast.warning("Transfer is processing", { description: res?.message });
+      } else {
+        toast.success("Transfer successful");
+      }
       form.reset({ amount: 0 });
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["mt5Balance"],                exact: false }),
