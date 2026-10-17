@@ -249,3 +249,5 @@ enum Services {
 ```
 
 - MT5 -> wallet transfers: status `idle` shows as "Processing" (StatusDot). If the transfer can't be confirmed instantly, the form shows a "Transfer is processing" warning toast instead of success (2026-10-16).
+
+- Maintenance page (2026-10-17): `deploy/` holds a self-contained "We'll be back shortly" page, a Cloudflare Worker (Free plan) that shows it when the server is down or when `MAINTENANCE_MODE=on` (staff bypass via `?maintenance_bypass=<token>`), and nginx lines for when a portal app is down. Setup: `deploy/README.md`.
